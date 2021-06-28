@@ -1,0 +1,16 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <h2 class="modal-title bg-success text-center" style="color:rgb(56, 56, 56);">NUEVO ESTUDIANTE</h2>
+        {% load crispy_forms_tags %}
+        <form action="{% url 'view_new_student' %}" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                {{ form|crispy }}
+            </div>
+            <div class="modal-footer bg-success text-center">
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

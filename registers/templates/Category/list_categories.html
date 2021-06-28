@@ -1,0 +1,65 @@
+{% extends "index.html" %}
+{% block body %}
+<div>
+    <button class="btn btn-success" style="margin-bottom:4px !important;"
+        onclick="open_modal('{% url 'view_new_category' %}')">Agregar Categoria</button>
+</div>
+{% if categories %}
+
+<div class="card">
+    <div class="card-header text-center" style="margin-top:4px !important;margin-bottom:4px !important;">
+        <strong class="card-title" style="font-size:40px;">CATEGORIAS REGISTRADAS</strong>
+    </div>
+    <div class="table order-table ov-h">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th class="text-center">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+
+                <tr>
+                    <td>{{category.name}}</td>
+                    <td>{{category.state}}</td>
+                    <td class="text-center">
+                        <button class="btn btn-warning"
+                            onclick="open_modal_edition('{% url 'view_edit_category' category.id %}')">Editar</button>
+                        <a class="btn btn-danger" href="{% url 'view_delete_category' category.id %}">Eliminar</a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% else %}
+
+<h1>No existen categorias registradas!!!</h1>
+
+{% endif %}
+
+<div class="modal face" id="new" role="dialog">
+</div>
+<div class="modal face" id="edition" role="dialog">
+</div>
+
+<script type="text/javascript">
+    var $ = jQuery.noConflic();
+    function open_modal(url) {
+        $('#new').load(url, function () {
+            $(this).modal('show')
+        })
+    }
+    function open_modal_edition(url) {
+        $('#edition').load(url, function () {
+            $(this).modal('show')
+        })
+    }
+</script>
+{% endblock body %}

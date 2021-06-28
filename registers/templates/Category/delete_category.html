@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+{% block body %}
+<form method="post">
+    {% csrf_token %}
+    <p><strong style="font-size:20px;">Desea Eliminar la Categoria?</strong></p>
+    <h5>{{object.name}}</h5>
+    <p style="color: black;">Se Guardara un respaldo de la categoria en la BASE DE DATOS!</p>
+    <button type="submit" class="btn btn-danger">Confirmar</button>
+    <a class="btn btn-primary" href="{% url 'view_list_categories' %}">Cancelar</a>
+</form>
+{% endblock body %}

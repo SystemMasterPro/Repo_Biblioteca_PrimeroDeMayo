@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+{% block body %}
+<form method="post">
+    {% csrf_token %}
+    <p><strong style="font-size:20px;">Desea Eliminar el Estudiante?</strong></p>
+    <h5>{{object.names}}</h5>
+    <h3>{{object.surnames}}</h3>
+    <p style="color: black;">Estudiante de {{object.cycle}} Ciclo - {{object.tecnology}}</p>
+    <button type="submit" class="btn btn-danger">Confirmar</button>
+    <a class="btn btn-primary" href="{% url 'view_list_students' %}">Cancelar</a>
+</form>
+{% endblock body %}

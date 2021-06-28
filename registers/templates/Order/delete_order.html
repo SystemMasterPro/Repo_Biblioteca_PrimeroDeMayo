@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+{% block body %}
+<form method="post">
+    {% csrf_token %}
+    <p><strong style="font-size:20px;">Desea Eliminar el Pedido?</strong></p>
+    <h5>{{object.id}}</h5>
+    <h3>{{object.student}}</h3>
+    <h2>{{object.book}}</h2>
+    <p style="color: black;">La fecha d entrega del libro es {{object.deliver_date}}</p>
+    <button type="submit" class="btn btn-danger">Confirmar</button>
+    <a class="btn btn-primary" href="{% url 'view_list_orders' %}">Cancelar</a>
+</form>
+{% endblock body %}
