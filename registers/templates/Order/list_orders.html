@@ -2,7 +2,7 @@
 {% block body %}
 <div>
     <button class="btn btn-success" style="margin-bottom:4px !important;"
-        onclick="open_modal('{% url 'view_new_order' %}')">Agregar Categoria</button>
+        onclick="open_modal('{% url 'view_new_order' %}')">Agregar Pedido</button>
 </div>
 {% if orders %}
 
@@ -32,7 +32,7 @@
                     <td>{{order.state}}</td>
                     <td>{{order.deliver_date}}</td>
                     <td class="text-center">
-                        <button class="btn btn-warning"
+                        <button class="btn btn-warning m-1"
                             onclick="open_modal_edition('{% url 'view_edit_order' order.id %}')">Editar</button>
                         <a class="btn btn-danger" href="{% url 'view_delete_order' order.id %}">Eliminar</a>
                     </td>

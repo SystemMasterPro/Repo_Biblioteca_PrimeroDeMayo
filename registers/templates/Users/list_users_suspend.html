@@ -1,0 +1,51 @@
+{% extends "index.html" %}
+{% block body %}
+{% if users %}
+
+<div class="card">
+    <div class="card-header text-center" style="margin-top:4px !important;margin-bottom:4px !important;">
+        <strong class="card-title" style="font-size:40px;">Usuarios Suspendidos</strong>
+    </div>
+    <div class="table order-table ov-h">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Ciclo</th>
+                    <td>Carrera</td>
+                    <th>Foto</th>
+                    <th>Telefono</th>
+                    <th>Correo</th>
+                    <th class="text-center">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+
+                <tr>
+                    <td>{{user.names}}</td>
+                    <td>{{user.surnames}}</td>
+                    <td>{{user.cycle}}</td>
+                    <td>{{user.tecnology}}</td>
+                    <td>{{user.image_student}}</td>
+                    <td>{{user.phone}}</td>
+                    <td>{{user.email}}</td>
+                    <td class="text-center">
+                        <a class="btn btn-success" href="{% url 'view_enable_user' user.id %}">Habilitar</a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% else %}
+
+<h1>No existen usuarios Suspendidos!!!</h1>
+
+{% endif %}
+
+{% endblock body %}

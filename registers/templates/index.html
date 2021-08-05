@@ -42,8 +42,8 @@
     <aside>
       <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a><img src="{% static 'icons/H.png' %}" class="img-circle" width="80"></a></p>
-          <h5 class="centered">{{ user.first_name | upper }}</h5>
+          <p class="centered"><a>{{user.image_user}}</a></p>
+          <h5 class="centered">{{ user.names | upper }}</h5>
           <li class="mt">
             <a href="/">
               <i class="fa fa-home"></i>
@@ -51,9 +51,9 @@
             </a>
           </li>
           <li class="sub-menu">
-            <a href="{% url 'view_list_students' %}">
+            <a href="{% url 'view_list_users' %}">
               <i class="fa fa-users"></i>
-              <span>Estudiantes</span>
+              <span>Usuarios</span>
             </a>
           </li>
           <li class="sub-menu">
@@ -75,7 +75,7 @@
             </a>
           </li>
           <li class="sub-menu">
-            <a href="">
+            <a href="http://localhost:4200" target="_blank">
               <i class="fa fa-globe"></i>
               <span>Sitio Web</span>
             </a>
@@ -130,7 +130,6 @@
                 <ol>
                   <li class="text_color_indications">CONOCER LOS PEDIDOS DE LOS ESTUDIANTES</li>
                   <li class="text_color_indications">TENER UNA LISTA DE LOS LIBROS QUE SE HA PRESTADO</li>
-                  <li class="text_color_indications">TENER UNA LISTA DE LOS LIBROS QUE SE HA PRESTADO</li>
                   <li class="text_color_indications">CONOCER LOS LIBROS QUE HAN SIDO DEVUELTOS</li>
                   <li class="text_color_indications">SUSPENDER A UN ESTUDIANTE EN EL SISTEMA POR EL INCUMPLIMIENTO DE SU DEVOLUCION</li>
                   <li class="text_color_indications">TENER UN LISTADO TOTAL DE LOS LIBROS QUE EXISTEN EN LA INSTITUCION</li>
@@ -155,14 +154,10 @@
           &copy; Copyrights <strong>Biblioteca Primero de Mayo</strong>. Todos los derechos reservados
         </p>
         <div class="credits">
-          Pagina Institucional 🏫 <a href="https://www.itspm.edu.ec/portal/" target="_blank"><strong class="visit_site">Visitar 🏫</strong></a>
+          <a href="https://www.itspm.edu.ec/portal/" target="_blank"><strong class="visit_site">Pagina Institucional</strong></a>
         </div>
-        <!-- <a href="index.html#" class="go-top">
-          <i class="fa fa-angle-up"></i>
-          </a> -->
       </div>
     </footer>
-    <!--footer end-->
   </section>
   <!-- COMPLEMENTOS JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"

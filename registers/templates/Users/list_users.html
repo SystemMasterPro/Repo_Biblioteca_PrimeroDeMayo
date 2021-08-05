@@ -2,47 +2,47 @@
 {% block body %}
 <div>
     <button class="btn btn-success" style="margin-bottom:4px !important;"
-        onclick="open_modal('{% url 'view_new_student' %}')">Agregar Estudiante</button>
+        onclick="open_modal('{% url 'view_new_user' %}')">Agregar Usuario</button>
+    <a class="btn btn-secondary" style="margin-bottom:4px !important;"
+        href="{% url 'view_list_users_suspend' %}">Usuarios Suspendidos</a>
 </div>
-{% if students %}
+{% if users %}
 
 <div class="card">
     <div class="card-header text-center" style="margin-top:4px !important;margin-bottom:4px !important;">
-        <strong class="card-title" style="font-size:40px;">ESTUDIANTES REGISTRADOS</strong>
+        <strong class="card-title" style="font-size:40px;">Usuarios Registrados</strong>
     </div>
     <div class="table order-table ov-h">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Cedula</th>
+                    <th>Usuario</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Ciclo</th>
                     <td>Carrera</td>
                     <th>Foto</th>
-                    <th>Estado</th>
                     <th>Telefono</th>
                     <th>Correo</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for student in students %}
+                {% for user in users %}
 
                 <tr>
-                    <td>{{student.dni}}</td>
-                    <td>{{student.names}}</td>
-                    <td>{{student.surnames}}</td>
-                    <td>{{student.cycle}}</td>
-                    <td>{{student.tecnology}}</td>
-                    <td>{{student.image_student}}</td>
-                    <td>{{student.state}}</td>
-                    <td>{{student.phone}}</td>
-                    <td>{{student.email}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.names}}</td>
+                    <td>{{user.surnames}}</td>
+                    <td>{{user.cycle}}</td>
+                    <td>{{user.tecnology}}</td>
+                    <td>{{user.image_user}}</td>
+                    <td><a href="https://wa.me/+593{{user.phone}}/?text=Estimado estudiante le saludamos desde la biblioteca del ISTPM" target="_blank">0{{user.phone}}</a></td>
+                    <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
                     <td class="text-center">
-                        <button class="btn btn-warning"
-                            onclick="open_modal_edition('{% url 'view_edit_student' student.id %}')">Editar</button>
-                        <a class="btn btn-danger" href="{% url 'view_delete_student' student.id %}">Eliminar</a>
+                        <button class="btn btn-warning m-1"
+                            onclick="open_modal_edition('{% url 'view_edit_user' user.id %}')">Editar</button>
+                        <a class="btn btn-danger" href="{% url 'view_disable_user' user.id %}">Suspender</a>
                     </td>
                 </tr>
 
@@ -54,7 +54,7 @@
 
 {% else %}
 
-<h1>No existen estudiantes registrados!!!</h1>
+<h1>No existen usuarios registrados!!!</h1>
 
 {% endif %}
 

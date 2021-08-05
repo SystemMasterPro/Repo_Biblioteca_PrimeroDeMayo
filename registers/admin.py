@@ -11,7 +11,7 @@ class LibrarianResource(resources.ModelResource):
         model = Librarian
 
 class LibrarianAdmin(ImportExportModelAdmin):
-    list_display = ('name','phone','role')
+    list_display = ('name','role')
     readonly_fields = ('created', 'updated')
     resource_class = LibrarianResource
 
@@ -20,19 +20,19 @@ class SecretaryResource(resources.ModelResource):
         model = Secretary
 
 class SecretaryAdmin(ImportExportModelAdmin):
-    list_display = ('name','phone')
+    list_display = ('name','role')
     readonly_fields = ('created', 'updated')
     resource_class = SecretaryResource
 
-class StudentResource(resources.ModelResource):
+class UsersResource(resources.ModelResource):
     class Meta:
-        model = Student
+        model = Users
 
-class StudentAdmin(ImportExportModelAdmin):
-    list_display = ('dni','names','surnames','cycle','tecnology','image_student','state','phone','email')
+class UsersAdmin(ImportExportModelAdmin):
+    list_display = ('username','names','surnames','cycle','tecnology','image_user','phone','email')
     readonly_fields = ('created', 'updated')
-    search_fields = ['names','dni']
-    resource_class = StudentResource
+    search_fields = ['username','names']
+    resource_class = UsersResource
 
 class CategoryResource(resources.ModelResource):
     class Meta:
@@ -59,7 +59,7 @@ class OrderResource(resources.ModelResource):
         model = Order
 
 class OrderAdmin(ImportExportModelAdmin):
-    list_display = ('id','student','book','state','deliver_date')
+    list_display = ('id','user','book','state','deliver_date')
     readonly_fields = ('created', 'updated')
     search_fields = ['id']
     resource_class = OrderResource
@@ -67,7 +67,7 @@ class OrderAdmin(ImportExportModelAdmin):
 
 admin.site.register(Librarian,LibrarianAdmin)
 admin.site.register(Secretary,SecretaryAdmin)
-admin.site.register(Student,StudentAdmin)
+admin.site.register(Users,UsersAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Book,BookAdmin)
 admin.site.register(Order,OrderAdmin)

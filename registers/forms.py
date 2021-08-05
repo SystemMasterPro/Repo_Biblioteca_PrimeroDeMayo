@@ -12,15 +12,15 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(render_value=False))
 
     class Meta:
-        model = User
+        model = Users
         fields = ['username', 'password']
 
-class StudentForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
     class Meta:
-        model = Student
-        fields = ['dni','names','surnames','cycle','tecnology','image','phone','email']
+        model = Users
+        fields = ['username','names','surnames','cycle','tecnology','image','phone','email']
         labels = {
-            'dni': 'Cedula de Ciudadania',
+            'username': 'Cedula de Ciudadania',
             'names': 'Nombres Completos',
             'surnames': 'Apellidos Completos',
             'cycle': 'Ciclo Actual',
@@ -52,9 +52,9 @@ class BookForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['student','book','deliver_date']
+        fields = ['user','book','deliver_date']
         labels = {
-            'student': 'Estudiante',
+            'user': 'Estudiante',
             'book': 'Libro',
             'deliver_date': 'Fecha de Entrega'
         }

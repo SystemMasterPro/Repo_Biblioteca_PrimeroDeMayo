@@ -31,7 +31,7 @@
                     <td>{{book.state}}</td>
                     <td>{{book.image_book}}</td>
                     <td>{{book.category}}</td>
-                    <td class="text-center">
+                    <td class="text-center m-1">
                         <button class="btn btn-warning"
                             onclick="open_modal_edition('{% url 'view_edit_book' book.id %}')">Editar</button>
                         <a class="btn btn-danger" href="{% url 'view_delete_book' book.id %}">Eliminar</a>

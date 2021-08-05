@@ -1,10 +1,14 @@
 body {
-    background: #222D32;
-    font-family: 'Roboto', sans-serif;
+    /* background: #222D32; */
+    font-family: 'Times New Roman', Times, serif;
+    background: #52c234;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #061700, #52c234);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #061700, #52c234); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    height: 100vh;
 }
 
 .login-box {
-    margin-top: 50px;
+    margin-top: 60px;
     height: auto;
     background: #1A2226;
     text-align: center;
@@ -101,7 +105,7 @@ label {
 .btn-outline-primary {
     border-color: #0DB8DE;
     color: #0DB8DE;
-    border-radius: 0px;
+    border-radius: 10px;
     font-weight: bold;
     letter-spacing: 1px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -131,11 +135,23 @@ label {
 .loginbttm {
     padding: 0px;
 }
+.text{
+    color: white;
+    font-size: 15px;
+}
+
+div a{
+    text-decoration: none;
+}
+
+.text:hover{
+    color: rgb(240, 45, 45);
+}
 
 @media (max-width: 490px) {
 .login-box {
     margin-top: 0;
-    height: auto;
+    height: 100vh;
     background: #1A2226;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
