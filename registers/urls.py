@@ -1,16 +1,36 @@
 from django import urls
 
 from django.urls import include, path
+from django.urls.conf import re_path
 
 from .views import *
 
 from . import views
 
-from rest_framework import routers
+from rest_framework import routers, permissions
 
 from django.contrib.auth.decorators import login_required
 
 from registers.token import Login
+
+from drf_yasg.views import get_schema_view
+
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Documentacion API",
+        default_version='v1.0',
+        description="DOCUMENTACION DE LA API BIBLIOTECARIA DEL INSTITUTO SUPERIOR TECNOLOGICO 'PRIMERO DE MAYO' ",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="richardjimenez.9641@gmail.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 
 router = routers.DefaultRouter()
 router.register('login', views.LoginUserViewSet)
@@ -22,6 +42,13 @@ router.register('orders', views.OrderViewSet)
 
 
 urlpatterns = [
+    # URLS DOCUMENTACION SWAGGER
+    re_path('swagger(?P<format>\.json|\.yaml)$',
+        schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger',
+        cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc',
+        cache_timeout=0), name='schema-redoc'),
     # URLS PRINCIPALES
     path('', login_view, name='view_login'),
     path('home/', home_view, name='view_home'),

@@ -8,8 +8,10 @@ class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = (
+            'username',
+            'email',
             'names',
-            'cycle',
+            'phone',
         )
 
 # ************************************* SERIALIZADORES PARA USUARIOS ******************************************************************

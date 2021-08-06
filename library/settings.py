@@ -45,7 +45,15 @@ INSTALLED_APPS = [
     'crispy_forms',
     'corsheaders',
     'simple_history',
+    'drf_yasg',
 ]
+
+SWAGGER_SETTINGS = {
+    'DOC_EXPANSION': 'None',
+}
+
+TOKEN_EXPIRED_AFTER_SECONDS = 10
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

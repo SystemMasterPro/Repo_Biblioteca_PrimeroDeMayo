@@ -1,5 +1,3 @@
-from django.contrib.auth import login
-
 from rest_framework.authtoken.views import ObtainAuthToken
 
 from rest_framework.response import Response
@@ -18,15 +16,18 @@ from datetime import datetime
 
 
 class Login(ObtainAuthToken):
+
     def post(self, request, *args, **kwargs):
         login_serializer = self.serializer_class(
             data=request.data, context={'request': request})
+
         if login_serializer.is_valid():
-            # print('Paso Validacion')
             user = login_serializer.validated_data['user']
-            if user.state:
+
+            if user.user_active:
                 token, created = Token.objects.get_or_create(user=user)
                 user_serializer = LoginUserSerializer(user)
+
                 if created:
                     return Response({
                         'token': token.key,
@@ -36,6 +37,7 @@ class Login(ObtainAuthToken):
                 else:
                     all_sessions = Session.objects.filter(
                         expire_date_gte=datetime.now())
+
                     if all_sessions.exists():
                         for session in all_sessions:
                             session_data = session.get_decoded()
@@ -48,10 +50,13 @@ class Login(ObtainAuthToken):
                         'user': user_serializer.data,
                         'message': 'Inicio Exitoso'
                     }, status=status.HTTP_201_CREATED)
+                    # return Response({'error':'YA SE HA INICIADO SESION CON ESTE USUARIO'}, status=status.HTTP_409_CONFLICT) --> Utilizar esto cuando no querramos que se manejen por sesiones, para ello borramos el codigo anterior 
             else:
                 return Response({'error': 'Este usuario esta suspendido'}, status=status.HTTP_401_UNAUTHORIZED)
+
         else:
             return Response({'error': 'Usuario o contraseña no validos!'}, status=status.HTTP_400_BAD_REQUEST)
+
         return Response({'mensaje': 'Hola desde Response'}, status=status.HTTP_200_OK)
 
 
