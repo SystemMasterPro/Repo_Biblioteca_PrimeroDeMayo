@@ -32,7 +32,7 @@ schema_view = get_schema_view(
 
 
 router = routers.DefaultRouter()
-router.register('login', views.LoginUserViewSet)
+# router.register('login', views.LoginUserViewSet)
 # Necesita un basename ya que no le especificamos en la vista
 router.register('users', views.UserViewSet, basename = Users)
 router.register('categories', views.CategoryViewSet)

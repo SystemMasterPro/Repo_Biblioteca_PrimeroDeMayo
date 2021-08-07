@@ -1,14 +1,11 @@
 from django import forms
-from django.db.models import fields
 
 from .models import *
 
-from django.contrib.auth.forms import UserCreationForm
-
-from django.contrib.auth.models import User
-
 class LoginForm(forms.Form):
+
     username = forms.CharField(widget=forms.TextInput())
+
     password = forms.CharField(widget=forms.PasswordInput(render_value=False))
 
     class Meta:
@@ -49,6 +46,9 @@ class BookForm(forms.ModelForm):
             'category': 'Categoria'
         }
 
+class DateTimeInput(forms.DateTimeInput):
+    input_type = 'datetime-local'
+
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
@@ -57,4 +57,9 @@ class OrderForm(forms.ModelForm):
             'user': 'Estudiante',
             'book': 'Libro',
             'deliver_date': 'Fecha de Entrega'
+        }
+        widgets = {
+
+            'deliver_date': DateTimeInput(attrs={'class': 'form-control'}),
+
         }
