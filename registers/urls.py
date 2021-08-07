@@ -1,6 +1,5 @@
-from django import urls
-
 from django.urls import include, path
+
 from django.urls.conf import re_path
 
 from .views import *
@@ -11,7 +10,7 @@ from rest_framework import routers, permissions
 
 from django.contrib.auth.decorators import login_required
 
-from registers.token import Login
+from registers.token import Login, Logout, UserToken
 
 from drf_yasg.views import get_schema_view
 
@@ -76,7 +75,9 @@ urlpatterns = [
     path('home/list_orders/delete_order/<int:pk>/', login_required(Delete_Order_View.as_view()), name='view_delete_order'),
     path('new_order/',login_required(New_Order_View.as_view()),name='view_new_order'),
     # API-REST
+    path('logout/', Logout.as_view(), name = 'logout'),
     path('login/', Login.as_view(), name = 'login'),
+    path('refresh-token/', UserToken.as_view(), name='refresh_token'),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

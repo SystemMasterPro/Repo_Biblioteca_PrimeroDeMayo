@@ -4,7 +4,7 @@ from .models import *
 
 # ************************************* SERIALIZADORES PARA LOGIN ******************************************************************
 
-class LoginUserSerializer(serializers.ModelSerializer):
+class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = (

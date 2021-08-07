@@ -19,22 +19,23 @@ class ExpiringTokenAuthentication(TokenAuthentication):
         return self.expires_in(token) < timedelta(seconds=0)
 
     def token_expire_handler(self,token):
+
         is_expire = self.is_token_expired(token)
+
         if is_expire:
-            print('TOKEN EXPIRADO')
-        return is_expire
+            user = token.user
+            token.delete()
+            token = self.get_model().objects.create(user = user)
+
+        return token
 
     def authenticate_credentials(self, key):
+        user = None,None
         try:
             token = self.get_model().objects.select_related('user').get(key=key)
+            token = self.token_expire_handler(token)
+            user = token.user
         except self.get_model().DoesNotExist:
-            raise  AuthenticationFailed('Token invalido.')
-        
-        if not token.user.user_active:
-            raise AuthenticationFailed('Usuario no activo o eliminado.')
+            pass
 
-        is_expired = self.token_expire_handler(token)
-
-        if is_expired:
-            raise AuthenticationFailed('Su token a expirado!')
-        return (token.user,token)
+        return user

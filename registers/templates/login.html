@@ -63,6 +63,22 @@
             </div>
             <div class="col-lg-3 col-md-2 col-sm-1"></div>
         </div>
+
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                    Swal.fire({
+                            icon: 'error',
+                            title: '{{message}}',
+                            confirmButtonColor:'#E0301F ',
+                            confirmButtonText: 'Entendido',
+                            footer: '<a href="mailto:richardjimenez.9641@gmail.com">Contactar al administrador para mas informacion</a>'
+                        })
+                </script>
+            {% endfor %}
+        {% endif %}
+
 </body>
 
 </html>

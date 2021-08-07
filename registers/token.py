@@ -8,25 +8,44 @@ from rest_framework.views import APIView
 
 from rest_framework.authtoken.models import Token
 
-from registers.serializers import LoginUserSerializer
+from registers.serializers import UserTokenSerializer
 
 from django.contrib.sessions.models import Session
 
 from datetime import datetime
 
+from registers.authentication_models import Authenticate
+
+
+class UserToken(Authenticate, APIView):
+
+    def get(self,request,*args,**kwargs):
+        try:
+            user_token = Token.objects.get(user=self.user)
+            user = UserTokenSerializer(self.user)
+            return Response({
+                'token': user_token.key,
+                'user': user.data 
+            })
+        except:
+            return Response({'error':'Credenciales enviadas incorrectas'},status=status.HTTP_400_BAD_REQUEST)
+
 
 class Login(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
-        login_serializer = self.serializer_class(
-            data=request.data, context={'request': request})
 
+        login_serializer = self.serializer_class(data = request.data, context={'request': request})
+        print(login_serializer)
+        print('no pasa del if')
         if login_serializer.is_valid():
+            print('paso primer if')
             user = login_serializer.validated_data['user']
 
             if user.user_active:
+                print('paso segundo if')
                 token, created = Token.objects.get_or_create(user=user)
-                user_serializer = LoginUserSerializer(user)
+                user_serializer = UserTokenSerializer(user)
 
                 if created:
                     return Response({
@@ -50,14 +69,15 @@ class Login(ObtainAuthToken):
                         'user': user_serializer.data,
                         'message': 'Inicio Exitoso'
                     }, status=status.HTTP_201_CREATED)
-                    # return Response({'error':'YA SE HA INICIADO SESION CON ESTE USUARIO'}, status=status.HTTP_409_CONFLICT) --> Utilizar esto cuando no querramos que se manejen por sesiones, para ello borramos el codigo anterior 
+                    # --> Utilizar esto cuando no querramos que se manejen por sesiones, para ello borramos el codigo anterior
+                    # return Response({'error':'YA SE HA INICIADO SESION CON ESTE USUARIO'}, status=status.HTTP_409_CONFLICT) 
             else:
                 return Response({'error': 'Este usuario esta suspendido'}, status=status.HTTP_401_UNAUTHORIZED)
 
         else:
             return Response({'error': 'Usuario o contraseña no validos!'}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'mensaje': 'Hola desde Response'}, status=status.HTTP_200_OK)
+        # return Response({'mensaje': 'Hola desde Response'}, status=status.HTTP_200_OK)
 
 
 class Logout(APIView):

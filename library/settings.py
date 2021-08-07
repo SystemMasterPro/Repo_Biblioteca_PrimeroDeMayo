@@ -52,7 +52,10 @@ SWAGGER_SETTINGS = {
     'DOC_EXPANSION': 'None',
 }
 
-TOKEN_EXPIRED_AFTER_SECONDS = 10
+TOKEN_EXPIRED_AFTER_SECONDS = 900
+
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 
 MIDDLEWARE = [
