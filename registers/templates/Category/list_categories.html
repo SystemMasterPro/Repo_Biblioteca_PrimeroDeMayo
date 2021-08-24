@@ -15,7 +15,6 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
@@ -24,7 +23,6 @@
 
                 <tr>
                     <td>{{category.name}}</td>
-                    <td>{{category.state}}</td>
                     <td class="text-center">
                         <button class="btn btn-warning"
                             onclick="open_modal_edition('{% url 'view_edit_category' category.id %}')">Editar</button>

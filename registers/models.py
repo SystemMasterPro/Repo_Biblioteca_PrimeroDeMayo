@@ -1,6 +1,6 @@
 from django.db import models
 
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 from django.utils.safestring import mark_safe
 
@@ -10,7 +10,7 @@ from simple_history.models import HistoricalRecords
 
 
 class UserManager(BaseUserManager):
-    def create_user(self,email,username,names,password = None):
+    def create_user(self,email,username,names,password:None):
         if not email:
             raise ValueError('El usuario debe tener un correo electronico!')
         if not names:
@@ -19,11 +19,11 @@ class UserManager(BaseUserManager):
         user = self.model(
             username = username,
             email = self.normalize_email(email),
-            names = names
+            names = names,
         )
 
         user.set_password(password)
-        user.save()
+        user.save(using=self._db)
         return user
 
     def create_superuser(self, email, username, names, password):
@@ -31,11 +31,12 @@ class UserManager(BaseUserManager):
             email = email,
             username=username,
             names=names,
-            password=password
+            password=password,
         )
 
+        user.staff = True
         user.user_admin = True
-        user.save()
+        user.save(using=self._db)
         return user
 
 def url_user(self, filename):
@@ -65,8 +66,8 @@ class Users(AbstractBaseUser):
     username = models.CharField('Numero de cedula', unique=True,max_length=10)
     names = models.CharField('Nombres',max_length=150,blank=True,null=True)
     surnames = models.CharField('Apellidos',max_length=150,blank=True, null=True)
-    cycle = models.CharField('Ciclo', max_length=100,choices=Level, default='available')
-    tecnology = models.CharField('Tecnologia',max_length=100,choices=Tecnologies,default='available')
+    cycle = models.CharField('Ciclo', max_length=200,choices=Level, default='available')
+    tecnology = models.CharField('Tecnologia',max_length=200,choices=Tecnologies,default='available')
     image = models.ImageField('Imagen',upload_to=url_user,blank=True, null=True)
     user_active = models.BooleanField(default=True, verbose_name='usuario activo')
     user_admin = models.BooleanField(default=False, verbose_name='usuario administrador')
@@ -88,6 +89,10 @@ class Users(AbstractBaseUser):
 
     def has_module_perms(self,app_label):
         return True
+
+    @property
+    def is_admin(self):
+        return self.user_admin
 
     @property
     def is_staff(self):
@@ -130,7 +135,7 @@ class Secretary(models.Model):
 
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField('Nombre',max_length=100)
+    name = models.CharField('Nombre',max_length=100,unique=True)
     state = models.BooleanField('Estado', default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)

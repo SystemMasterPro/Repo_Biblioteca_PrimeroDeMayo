@@ -2,7 +2,8 @@
 {% block body %}
 <form method="post">
     {% csrf_token %}
-    <p><strong style="font-size:20px;">Desea Eliminar el Pedido?</strong></p>
+    <p><strong style="font-size:20px;">Desea Archivar el Pedido?</strong></p>
+    <h3>Esta opcion es recomendada cuando el pedido ya se ha cumplido</h3>
     <h5>{{object.id}}</h5>
     <h3>{{object.student}}</h3>
     <h2>{{object.book}}</h2>

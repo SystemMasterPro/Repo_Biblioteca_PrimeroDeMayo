@@ -3,13 +3,31 @@
 <div>
     <button class="btn btn-success" style="margin-bottom:4px !important;"
         onclick="open_modal('{% url 'view_new_book' %}')">Agregar Libro</button>
-    <a class="btn btn-secondary" style="margin-bottom:4px !important;" href="{% url 'view_list_books_search' %}">Buscar Libro</a>
 </div>
-{% if books %}
+
+<div class="container">
+    <div class="row p-3">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <form method="GET">
+                <div class="row">
+                    <div class="col-10 col-sm-10 col-md-11 col-lg-11">
+                        <input class="form-control" type="text" name="buscar" id="buscar"
+                            placeholder="Ingrese su busqueda" value="{{request.GET.buscar}}">
+                    </div>
+                    <div class="col-2 col-sm-2 col-md-1 col-lg-1">
+                        <button class="btn btn-primary btn-block mt-2" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if data %}
 
 <div class="card">
     <div class="card-header text-center" style="margin-top:4px !important;margin-bottom:4px !important;">
-        <strong class="card-title" style="font-size:40px;">LIBROS REGISTRADOS</strong>
+        <strong class="card-title" style="font-size:40px;">Resultado de Busqueda</strong>
     </div>
     <div class="table order-table ov-h">
         <table class="table">
@@ -23,17 +41,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for book in books %}
+                {% for b in data %}
 
                 <tr>
-                    <td>{{book.title}}</td>
-                    <td>{{book.author}}</td>
-                    <td>{{book.image_book}}</td>
-                    <td>{{book.category}}</td>
+                    <td>{{b.title}}</td>
+                    <td>{{b.author}}</td>
+                    <td>{{b.image_book}}</td>
+                    <td>{{b.category}}</td>
                     <td class="text-center m-1">
                         <button class="btn btn-warning"
-                            onclick="open_modal_edition('{% url 'view_edit_book' book.id %}')">Editar</button>
-                        <a class="btn btn-danger" href="{% url 'view_delete_book' book.id %}">Eliminar</a>
+                            onclick="open_modal_edition('{% url 'view_edit_book' b.id %}')">Editar</button>
+                        <a class="btn btn-danger" href="{% url 'view_delete_book' b.id %}">Eliminar</a>
                     </td>
                 </tr>
 
@@ -45,7 +63,9 @@
 
 {% else %}
 
-<h1>No existen libros registrados!!!</h1>
+<div class="container text-center">
+    <h1>Realize una busqueda!!!</h1>
+</div>
 
 {% endif %}
 

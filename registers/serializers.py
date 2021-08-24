@@ -11,7 +11,11 @@ class UserTokenSerializer(serializers.ModelSerializer):
             'username',
             'email',
             'names',
+            'surnames',
+            'cycle',
             'phone',
+            'tecnology',
+            'image'
         )
 
 # ************************************* SERIALIZADORES PARA USUARIOS ******************************************************************

@@ -17,6 +17,7 @@ from datetime import datetime
 from registers.authentication_models import Authenticate
 
 
+
 class UserToken(Authenticate, APIView):
 
     def get(self,request,*args,**kwargs):
@@ -36,14 +37,11 @@ class Login(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
 
         login_serializer = self.serializer_class(data = request.data, context={'request': request})
-        print(login_serializer)
-        print('no pasa del if')
+
         if login_serializer.is_valid():
-            print('paso primer if')
             user = login_serializer.validated_data['user']
 
             if user.user_active:
-                print('paso segundo if')
                 token, created = Token.objects.get_or_create(user=user)
                 user_serializer = UserTokenSerializer(user)
 
@@ -60,6 +58,7 @@ class Login(ObtainAuthToken):
                     if all_sessions.exists():
                         for session in all_sessions:
                             session_data = session.get_decoded()
+
                             if user.id == int(session_data.get('_auth_user_id')):
                                 session.delete()
                     token.delete()
@@ -82,13 +81,15 @@ class Login(ObtainAuthToken):
 
 class Logout(APIView):
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         try:
-            token = Token.objects.filter(key=request.GET.get('token')).first()
+            token = request.GET.get('token')
+            print(token)
+            token = Token.objects.filter(key = token).first()
             if token:
+                print("TOKEN RECONOCIDO")
                 user = token.user
-                all_sessions = Session.objects.filter(
-                expire_date_gte=datetime.now())
+                all_sessions = Session.objects.filter(expire_date__gte = datetime.now())
                 if all_sessions.exists():
                     for session in all_sessions:
                         session_data = session.get_decoded()

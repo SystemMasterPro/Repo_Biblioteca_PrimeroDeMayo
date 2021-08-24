@@ -32,7 +32,6 @@ schema_view = get_schema_view(
 
 
 router = routers.DefaultRouter()
-# router.register('login', views.LoginUserViewSet)
 # Necesita un basename ya que no le especificamos en la vista
 router.register('users', views.UserViewSet, basename = Users)
 router.register('categories', views.CategoryViewSet)
@@ -55,6 +54,7 @@ urlpatterns = [
     # URLS Usuarios
     path('home/list_users/', login_required(List_Users_View.as_view()), name='view_list_users'),
     path('home/list_users/suspend/', login_required(List_Users_Suspend_View.as_view()), name='view_list_users_suspend'),
+    path('home/list_users/search/', login_required(search_view), name='view_list_users_search'),
     path('home/list_users/edit_user/<int:pk>/', login_required(Update_User_View.as_view()), name='view_edit_user'),
     path('home/list_users/disable_user/<int:pk>/', login_required(Disable_User_View.as_view()), name='view_disable_user'),
     path('home/list_users/enable_user/<int:pk>/', login_required(Enable_User_View.as_view()), name='view_enable_user'),
@@ -66,16 +66,19 @@ urlpatterns = [
     path('new_category/',login_required(New_Category_View.as_view()),name='view_new_category'),
     # URLS LIBROS
     path('home/list_books/', login_required(List_Books_View.as_view()), name='view_list_books'),
+    path('home/list_books/search/', login_required(search_view_books), name='view_list_books_search'),
     path('home/list_books/edit_book/<int:pk>/', login_required(Update_Book_View.as_view()), name='view_edit_book'),
     path('home/list_books/delete_book/<int:pk>/', login_required(Delete_Book_View.as_view()), name='view_delete_book'),
     path('new_book/',login_required(New_Book_View.as_view()),name='view_new_book'),
     # URLS PEDIDOS
     path('home/list_orders/', login_required(List_Orders_View.as_view()), name='view_list_orders'),
+    path('home/list_orders/archivate/', login_required(List_Order_Archivate_View.as_view()), name='view_list_orders_archivate'),
+    path('home/list_orders/search/', login_required(search_view_orders), name='view_list_orders_search'),
     path('home/list_orders/edit_order/<int:pk>/', login_required(Update_Order_View.as_view()), name='view_edit_order'),
     path('home/list_orders/delete_order/<int:pk>/', login_required(Delete_Order_View.as_view()), name='view_delete_order'),
     path('new_order/',login_required(New_Order_View.as_view()),name='view_new_order'),
     # API-REST
-    path('logout/', Logout.as_view(), name = 'logout'),
+    path('logout_api/', Logout.as_view(), name = 'logout'),
     path('login/', Login.as_view(), name = 'login'),
     path('refresh-token/', UserToken.as_view(), name='refresh_token'),
     path('api/', include(router.urls)),

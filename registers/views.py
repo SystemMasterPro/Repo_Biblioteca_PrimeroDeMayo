@@ -28,6 +28,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from registers.authentication_models import Authenticate
 
+from django.db.models import Q
+
+
 # ******************************************** LOGIN ADMIN O DASHBOARD **************************************************************
 def login_view(request):
     if request.user.is_authenticated:
@@ -53,11 +56,59 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-# ******************************************** HOME ADMIN O DASHBOARD // checar esta funcion hay que optimizar codigo **************************
+# ******************************************** HOME ADMIN O DASHBOARD **************************
 @login_required(login_url='/')
 def home_view(request):
     return render(request, 'index.html')
 
+# BUSQUEDA USUARIOS
+def search_view(request):
+    search = request.GET.get("buscar")
+    queryset = []
+    print(queryset)
+    if search:
+        queryset = Users.objects.filter(
+            Q(username__icontains=search) |
+            Q(names__icontains=search)
+        ).distinct()
+    elif search is '':
+        messages.add_message(request, messages.WARNING, "SIN RESULTADOS")
+    else:
+        queryset = []
+    return render(request, 'Users/search_user.html', {'data': queryset})
+
+# BUSQUEDA LIBROS
+def search_view_books(request):
+    search = request.GET.get("buscar")
+    queryset = []
+    print(queryset)
+    if search:
+        queryset = Book.objects.filter(
+            Q(title__icontains=search) |
+            Q(author__icontains=search)
+        ).distinct()
+    elif search is '':
+        messages.add_message(request, messages.WARNING, "SIN RESULTADOS")
+    else:
+        queryset = []
+    return render(request, 'Book/search_book.html', {'data': queryset})
+
+# BUSQUEDA PEDIDOS
+def search_view_orders(request):
+    search = request.GET.get("buscar")
+    queryset = []
+    print(queryset)
+    if search:
+        queryset = Order.objects.filter(
+            Q(book__icontains=search) |
+            Q(user__icontains=search)
+        ).distinct()
+    elif search is '':
+        messages.add_message(request, messages.WARNING, "SIN RESULTADOS")
+    else:
+        queryset = []
+    return render(request, 'Order/search_order.html', {'data': queryset})
+    
 # ********************************************* VISTAS BASADAS EN CLASES PARA EL ADMIN O DASHBOARD *******************************************************
 # *** CLASE USUARIO ***
 # LISTAR TODOS LOS USUARIOS
@@ -66,26 +117,38 @@ class List_Users_View(ListView):
     template_name = 'Users/list_users.html'
     queryset = Users.objects.filter(user_active=True)
     context_object_name = 'users'
+
 # LISTAR USUARIOS SUSPENDIDOS
 class List_Users_Suspend_View(ListView):
     model = Users
     template_name = 'Users/list_users_suspend.html'
     queryset = Users.objects.filter(user_active=False)
     context_object_name = 'users'
+
 # CREAR USUARIO
-class New_User_View(SuccessMessageMixin,CreateView):
+class New_User_View(SuccessMessageMixin, CreateView):
     model = Users
     form_class = UserForm
     template_name = 'Users/new_user.html'
     success_url = reverse_lazy('view_list_users')
     success_message = "Usuario creado con exito!"
+
+    def form_invalid(self, form):
+        messages.add_message(self.request,messages.ERROR,"Usuario o Password mal ingresados!!!")
+        return redirect('view_list_users')
+
 # ACTUALIZAR USUARIO
 class Update_User_View(SuccessMessageMixin,UpdateView):
     model = Users
-    form_class = UserForm
+    form_class = UserFormEdit
     template_name = 'Users/update_user.html'
     success_url = reverse_lazy('view_list_users')
     success_message = "Usuario actualizado"
+
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.WARNING, "Usuario ya registrado!!!")
+        return redirect('view_list_users')
+
 # DESABILITAR UN USUARIO EN EL ADMIN O DASHBOARD
 class Disable_User_View(DetailView):
     model = Users
@@ -119,13 +182,23 @@ class New_Category_View(SuccessMessageMixin, CreateView):
     template_name = 'Category/new_category.html'
     success_url = reverse_lazy('view_list_categories')
     success_message = "Categoria creada con exito!"
+
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.ERROR, "Categoria YA REGISTRADA!!")
+        return redirect('view_list_categories')
+
 # ACTUALIZAR CATAEGORIA
-class Update_Category_View(SuccessMessageMixin,UpdateView):
+class Update_Category_View(SuccessMessageMixin, UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'Category/update_category.html'
     success_url = reverse_lazy('view_list_categories')
     success_message = "Categoria actualizada"
+
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.WARNING, "Categoria EXISTENTE!!")
+        return redirect('view_list_categories')
+
 # DESABILITAR CATEGORIA EN EL ADMIN O DASHBOARD
 class Delete_Category_View(DetailView):
     model = Category
@@ -174,6 +247,14 @@ class List_Orders_View(ListView):
     template_name = 'Order/list_orders.html'
     queryset = Order.objects.filter(state=True)
     context_object_name = 'orders'
+
+# PEDIDOS ARCHIVADOS
+class List_Order_Archivate_View(ListView):
+    model = Order
+    template_name = 'Order/archivate_orders.html'
+    queryset = Order.objects.filter(state=False)
+    context_object_name = 'orders'
+
 # NUEVO PEDIDO
 class New_Order_View(CreateView):
     model = Order
@@ -202,12 +283,14 @@ class Delete_Order_View(DetailView):
 # ********************************************************* VISTAS BASADAS EN CLASES *******************************************************************************************
 
 # **** VISTA LOGIN FRONTEND CON TOKEN ****
+
 class LoginUserViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.all()
     serializer_class = UserTokenSerializer
 
 # **** CLASE USUARIO ****
-class UserViewSet(viewsets.ModelViewSet):
+
+class UserViewSet(Authenticate, viewsets.ModelViewSet):
 
     # SERIALIZABLE DEL MODELO USUARIO
     serializer_class = UserSerializer
@@ -256,8 +339,6 @@ class CategoryViewSet(Authenticate,viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
 # *** CLASE LIBRO ***
-
-
 class BookViewSet(Authenticate, viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer

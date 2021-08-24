@@ -1,6 +1,10 @@
 from django import forms
 
+from django.db.models import fields
+
 from .models import *
+
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 class LoginForm(forms.Form):
 
@@ -13,19 +17,38 @@ class LoginForm(forms.Form):
         fields = ['username', 'password']
 
 class UserForm(forms.ModelForm):
+
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirmar Contraseña', widget=forms.PasswordInput)
+
     class Meta:
         model = Users
         fields = ['username','names','surnames','cycle','tecnology','image','phone','email']
-        labels = {
-            'username': 'Cedula de Ciudadania',
-            'names': 'Nombres Completos',
-            'surnames': 'Apellidos Completos',
-            'cycle': 'Ciclo Actual',
-            'tecnology': 'Carrera',
-            'image': 'Fotografia',
-            'phone': 'Numero Telefonico',
-            'email': 'Correo Electronico'
-        }
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 !=password2:
+            raise forms.ValidationError("No coinciden las contraseñas")
+        return password2
+
+    def save(self,commit=True):
+        user = super(UserForm,self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
+class UserFormEdit(forms.ModelForm):
+
+    password = ReadOnlyPasswordHashField()
+
+    class Meta:
+        model = Users
+        fields = ['username','password','names','surnames','cycle','tecnology','image','phone','email']
+
+    def clean_password(self):
+        return self.initial['password']
 
 class CategoryForm(forms.ModelForm):
     class Meta:

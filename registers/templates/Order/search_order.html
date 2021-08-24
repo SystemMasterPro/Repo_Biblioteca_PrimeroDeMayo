@@ -3,15 +3,32 @@
 <div>
     <button class="btn btn-success" style="margin-bottom:4px !important;"
         onclick="open_modal('{% url 'view_new_order' %}')">Agregar Pedido</button>
-    <a class="btn btn-warning" style="margin-bottom:4px !important;" href="{% url 'view_list_orders_archivate' %}">Pedidos Archivados</a>
-    <a class="btn btn-secondary" style="margin-bottom:4px !important;" href="{% url 'view_list_orders_search' %}">Buscar
-        Pedido</a>
 </div>
-{% if orders %}
+
+<div class="container">
+    <div class="row p-3">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <form method="GET">
+                <div class="row">
+                    <div class="col-10 col-sm-10 col-md-11 col-lg-11">
+                        <input class="form-control" type="text" name="buscar" id="buscar"
+                            placeholder="Ingrese su busqueda" value="{{request.GET.buscar}}">
+                    </div>
+                    <div class="col-2 col-sm-2 col-md-1 col-lg-1">
+                        <button class="btn btn-primary btn-block mt-2" type="submit"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if data %}
 
 <div class="card">
     <div class="card-header text-center" style="margin-top:4px !important;margin-bottom:4px !important;">
-        <strong class="card-title" style="font-size:40px;">PEDIDOS REGISTRADOS</strong>
+        <strong class="card-title" style="font-size:40px;">Resultado de Busqueda</strong>
     </div>
     <div class="table order-table ov-h">
         <table class="table">
@@ -25,20 +42,21 @@
                 </tr>
             </thead>
             <tbody>
-                {% for order in orders %}
+                {% for o in data %}
 
                 <tr>
-                    <td>{{order.id}}</td>
-                    <td>{{order.student}}</td>
-                    <td>{{order.book}}</td>
-                    <td>{{order.deliver_date}}</td>
+                    <td>{{o.id}}</td>
+                    <td>{{o.student}}</td>
+                    <td>{{o.book}}</td>
+                    <td>{{o.deliver_date}}</td>
                     <td class="text-center">
                         <a class="btn btn-success" href="">Notificar</a>
                         <button class="btn btn-warning m-1"
-                            onclick="open_modal_edition('{% url 'view_edit_order' order.id %}')">Editar</button>
-                        <a class="btn btn-danger" href="{% url 'view_delete_order' order.id %}">Archivar</a>
+                            onclick="open_modal_edition('{% url 'view_edit_order' o.id %}')">Editar</button>
+                        <a class="btn btn-danger" href="{% url 'view_delete_order' o.id %}">Archivar</a>
                     </td>
                 </tr>
+
                 {% endfor %}
             </tbody>
         </table>
@@ -47,7 +65,9 @@
 
 {% else %}
 
-<h1>No existen pedidos registrados!!!</h1>
+<div class="container text-center">
+    <h1>Realize una busqueda!!!</h1>
+</div>
 
 {% endif %}
 
