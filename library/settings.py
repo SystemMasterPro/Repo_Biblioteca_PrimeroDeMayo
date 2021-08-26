@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-+%di2di%6imonfbfmogk5qv+l%0gaw=38%o^-l06=$z(e1$(0x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://pruebafrontistpm.netlify.app","localhost", "127.0.0.1", "https://prueba-rj.herokuapp.com"]
+ALLOWED_HOSTS = ["prueba-rj.herokuapp.com", "pruebafrontistpm.netlify.app","https://pruebafrontistpm.netlify.app", "localhost", "127.0.0.1", "https://prueba-rj.herokuapp.com"]
 
 
 # Application definition
