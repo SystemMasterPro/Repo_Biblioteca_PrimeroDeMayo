@@ -67,8 +67,10 @@ urlpatterns = [
     # URLS LIBROS
     path('home/list_books/', login_required(List_Books_View.as_view()), name='view_list_books'),
     path('home/list_books/search/', login_required(search_view_books), name='view_list_books_search'),
+    path('home/list_books/borrowed/', login_required(List_Books_Borrowed_View.as_view()),name='view_list_books_borrowed'),
     path('home/list_books/edit_book/<int:pk>/', login_required(Update_Book_View.as_view()), name='view_edit_book'),
     path('home/list_books/delete_book/<int:pk>/', login_required(Delete_Book_View.as_view()), name='view_delete_book'),
+    path('home/list_books/enable_book/<int:pk>/',login_required(Enable_Book_View.as_view()), name='view_enable_book'),
     path('new_book/',login_required(New_Book_View.as_view()),name='view_new_book'),
     # URLS PEDIDOS
     path('home/list_orders/', login_required(List_Orders_View.as_view()), name='view_list_orders'),

@@ -216,6 +216,12 @@ class List_Books_View(ListView):
     template_name = 'Book/list_books.html'
     queryset = Book.objects.filter(state=True)
     context_object_name = 'books'
+# LISTAR LIBROS PEDIDOS
+class List_Books_Borrowed_View(ListView):
+    model= Book
+    template_name = 'Book/list_borrowed_books.html'
+    queryset = Book.objects.filter(state=False)
+    context_object_name = 'books'
 # CREAR NUEVO LIBRO
 class New_Book_View(SuccessMessageMixin, CreateView):
     model = Book
@@ -237,6 +243,15 @@ class Delete_Book_View(DetailView):
     def post(self,request,pk,*args,**kwargs):
         object = Book.objects.get(id=pk)
         object.state = False
+        object.save()
+        return redirect('view_list_books')
+# HABILTAR LIBRO
+class Enable_Book_View(DetailView):
+    model = Book
+    template_name = 'Book/enable_book.html'
+    def post(self, request, pk, *args, **kwargs):
+        object = Book.objects.get(id=pk)
+        object.state = True
         object.save()
         return redirect('view_list_books')
 
