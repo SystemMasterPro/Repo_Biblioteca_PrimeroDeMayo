@@ -16,19 +16,25 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Pedido</th>
-                    <th>Estudiante</th>
-                    <th>Libro</th>
-                    <th>Fecha de Entrega</th>
+                <th>Pedido</th>
+                <th>Estudiante</th>
+                <th>Cedula</th>
+                <th>Libro</th>
+                <th>Autor</th>
+                <th>Fecha de solicitud</th>
+                <th>Fecha de entrega</th>
                 </tr>
             </thead>
             <tbody>
                 {% for order in orders %}
                 <tr>
-                    <td>{{order.id}}</td>
-                    <td>{{order.student}}</td>
-                    <td>{{order.book}}</td>
-                    <td>{{order.deliver_date}}</td>
+                <td>{{order.id}}</td>
+                <td>{{order.user}}</td>
+                <td>{{order.user.username}}</td>
+                <td>{{order.book}}</td>
+                <td>{{order.book.author}}</td>
+                <td>{{order.created}}</td>
+                <td>{{order.deliver_date}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -41,5 +47,24 @@
 <h1 class="m-4">No existen pedidos archivados!!!</h1>
 
 {% endif %}
+
+<div class="modal face" id="new" role="dialog">
+</div>
+<div class="modal face" id="edition" role="dialog">
+</div>
+
+<script type="text/javascript">
+    var $ = jQuery.noConflic();
+    function open_modal(url) {
+        $('#new').load(url, function () {
+            $(this).modal('show')
+        })
+    }
+    function open_modal_edition(url) {
+        $('#edition').load(url, function () {
+            $(this).modal('show')
+        })
+    }
+</script>
 
 {% endblock body %}

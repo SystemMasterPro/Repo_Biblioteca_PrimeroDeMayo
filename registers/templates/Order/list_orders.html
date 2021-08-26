@@ -19,8 +19,11 @@
                 <tr>
                     <th>Pedido</th>
                     <th>Estudiante</th>
+                    <th>Cedula</th>
                     <th>Libro</th>
-                    <th>Fecha de Entrega</th>
+                    <th>Autor</th>
+                    <th>Fecha de solicitud</th>
+                    <th>Fecha limite de entrega</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
@@ -29,11 +32,14 @@
 
                 <tr>
                     <td>{{order.id}}</td>
-                    <td>{{order.student}}</td>
+                    <td>{{order.user}}</td>
+                    <td>{{order.user.username}}</td>
                     <td>{{order.book}}</td>
+                    <td>{{order.book.author}}</td>
+                    <td>{{order.created}}</td>
                     <td>{{order.deliver_date}}</td>
                     <td class="text-center">
-                        <a class="btn btn-success" href="">Notificar</a>
+                        <a class="btn btn-success" href="mailto:{{order.user.email}}?cc=richardjimenez.9641@gmail.com&bcc=secretaria.istprimerodemayo@gmail.com&subject=SEGUIMIENTO%20PRESTAMO%20LIBRO%20BIBLIOTECA%20PRIMERO%20DE%20MAYO&body=Buen%20dia%20{{order.user.names}}%20te%20hacemos%20conocer%20que%20tu%20pedido%20para%20el%20libro%20{{order.book}}%20autor%20{{order.book.author}}%20vence%20el%20dia%20{{order.deliver_date}},%20a%20partir%20de%20ahora%20puede%20pasar%20a%20retirarlo%20en%20los%20horarios%20establecidos%20por%20la%20Institutcion.%20Saludos%20no%20responder%20al%20mismo">Notificar Pedido</a>
                         <button class="btn btn-warning m-1"
                             onclick="open_modal_edition('{% url 'view_edit_order' order.id %}')">Editar</button>
                         <a class="btn btn-danger" href="{% url 'view_delete_order' order.id %}">Archivar</a>

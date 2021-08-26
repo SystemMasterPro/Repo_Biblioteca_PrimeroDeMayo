@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-+%di2di%6imonfbfmogk5qv+l%0gaw=38%o^-l06=$z(e1$(0x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 
 
 # Application definition
@@ -27,12 +27,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'registers',
     'import_export',
     'rest_framework',
     'rest_framework.authtoken',
     'crispy_forms',
-    'corsheaders',
     'simple_history',
     'drf_yasg',
 ]
@@ -50,9 +50,9 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -63,13 +63,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'library.urls'
 
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200"
+    "http://localhost:4200",
 ]
 
+
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:4200"
+    "http://localhost:4200",
 ]
 
 TEMPLATES = [

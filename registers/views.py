@@ -100,8 +100,8 @@ def search_view_orders(request):
     print(queryset)
     if search:
         queryset = Order.objects.filter(
-            Q(book__icontains=search) |
-            Q(user__icontains=search)
+            Q(book__title__icontains=search) |
+            Q(user__names__icontains=search)
         ).distinct()
     elif search is '':
         messages.add_message(request, messages.WARNING, "SIN RESULTADOS")
@@ -261,6 +261,7 @@ class New_Order_View(CreateView):
     form_class = OrderForm
     template_name = 'Order/new_order.html'
     success_url = reverse_lazy('view_list_orders')
+
 # ACTUALIZAR PEDIDO
 class Update_Order_View(SuccessMessageMixin, UpdateView):
     model = Order
@@ -268,6 +269,7 @@ class Update_Order_View(SuccessMessageMixin, UpdateView):
     template_name = 'Order/update_order.html'
     success_url = reverse_lazy('view_list_orders')
     success_message = "Pedido Actualizado"
+    
 # DESABILITAR PEDIDO EN EL ADMIN O DASHBOARD
 class Delete_Order_View(DetailView):
     model = Order

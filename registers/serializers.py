@@ -8,6 +8,7 @@ class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = (
+            'id',
             'username',
             'email',
             'names',

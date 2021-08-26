@@ -59,7 +59,12 @@
                     <td class="text-center">
                         <button class="btn btn-warning m-1"
                             onclick="open_modal_edition('{% url 'view_edit_user' user.id %}')">Editar</button>
-                        <a class="btn btn-danger" href="{% url 'view_disable_user' user.id %}">Suspender</a>
+                            {% if d.user_active == True %}
+                                <a class="btn btn-danger" href="{% url 'view_disable_user' user.id %}">Suspender</a>
+                            {% endif %}
+                            {% if d.user_active == False %}
+                                <a class="btn btn-success" href="{% url 'view_enable_user' user.id %}">Habilitar</a>
+                            {% endif %}
                     </td>
                 </tr>
 

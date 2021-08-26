@@ -49,9 +49,14 @@
                     <td>{{b.image_book}}</td>
                     <td>{{b.category}}</td>
                     <td class="text-center m-1">
+                        {% if b.state == True %}
                         <button class="btn btn-warning"
                             onclick="open_modal_edition('{% url 'view_edit_book' b.id %}')">Editar</button>
                         <a class="btn btn-danger" href="{% url 'view_delete_book' b.id %}">Eliminar</a>
+                        {% endif %}
+                        {% if b.state == False %}
+                            <h4>Libro Eliminado</h4>
+                        {% endif %}
                     </td>
                 </tr>
 

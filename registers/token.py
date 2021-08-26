@@ -40,11 +40,9 @@ class Login(ObtainAuthToken):
 
         if login_serializer.is_valid():
             user = login_serializer.validated_data['user']
-
             if user.user_active:
                 token, created = Token.objects.get_or_create(user=user)
                 user_serializer = UserTokenSerializer(user)
-
                 if created:
                     return Response({
                         'token': token.key,
@@ -52,13 +50,10 @@ class Login(ObtainAuthToken):
                         'message': 'Inicio Exitoso'
                     }, status=status.HTTP_201_CREATED)
                 else:
-                    all_sessions = Session.objects.filter(
-                        expire_date_gte=datetime.now())
-
+                    all_sessions = Session.objects.filter(expire_date__gte = datetime.now())
                     if all_sessions.exists():
                         for session in all_sessions:
                             session_data = session.get_decoded()
-
                             if user.id == int(session_data.get('_auth_user_id')):
                                 session.delete()
                     token.delete()
@@ -76,8 +71,6 @@ class Login(ObtainAuthToken):
         else:
             return Response({'error': 'Usuario o contraseña no validos!'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # return Response({'mensaje': 'Hola desde Response'}, status=status.HTTP_200_OK)
-
 
 class Logout(APIView):
 
@@ -87,7 +80,6 @@ class Logout(APIView):
             print(token)
             token = Token.objects.filter(key = token).first()
             if token:
-                print("TOKEN RECONOCIDO")
                 user = token.user
                 all_sessions = Session.objects.filter(expire_date__gte = datetime.now())
                 if all_sessions.exists():

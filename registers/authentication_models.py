@@ -19,7 +19,6 @@ class Authenticate(object):
                 token = token[1].decode()
             except:
                 return None
-            
             token_expire = ExpiringTokenAuthentication()
             user = token_expire.authenticate_credentials(token)
             if user != None:

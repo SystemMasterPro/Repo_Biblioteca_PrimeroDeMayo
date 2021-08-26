@@ -46,14 +46,19 @@
 
                 <tr>
                     <td>{{o.id}}</td>
-                    <td>{{o.student}}</td>
+                    <td>{{o.user}}</td>
                     <td>{{o.book}}</td>
                     <td>{{o.deliver_date}}</td>
                     <td class="text-center">
+                        {% if o.state == True %}
                         <a class="btn btn-success" href="">Notificar</a>
                         <button class="btn btn-warning m-1"
                             onclick="open_modal_edition('{% url 'view_edit_order' o.id %}')">Editar</button>
                         <a class="btn btn-danger" href="{% url 'view_delete_order' o.id %}">Archivar</a>
+                        {% endif %}
+                        {% if o.state == False %}
+                            <h4>Archivado</h4>
+                        {% endif %}
                     </td>
                 </tr>
 

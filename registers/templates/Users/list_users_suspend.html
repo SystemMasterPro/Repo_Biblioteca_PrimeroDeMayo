@@ -1,5 +1,12 @@
 {% extends "index.html" %}
 {% block body %}
+
+<div>
+    <button class="btn btn-success" style="margin-bottom:4px !important;"
+        onclick="open_modal('{% url 'view_new_user' %}')">Agregar Usuario</button>
+    <a class="btn btn-secondary" style="margin-bottom:4px !important;" href="{% url 'view_list_users_search' %}">Buscar
+        Usuario</a>
+</div>
 {% if users %}
 
 <div class="card">
@@ -10,6 +17,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Usuario</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Ciclo</th>
@@ -24,15 +32,17 @@
                 {% for user in users %}
 
                 <tr>
+                    <td>{{user.username}}</td>
                     <td>{{user.names}}</td>
                     <td>{{user.surnames}}</td>
                     <td>{{user.cycle}}</td>
                     <td>{{user.tecnology}}</td>
-                    <td>{{user.image_student}}</td>
+                    <td>{{user.image_user}}</td>
                     <td>{{user.phone}}</td>
                     <td>{{user.email}}</td>
                     <td class="text-center">
                         <a class="btn btn-success" href="{% url 'view_enable_user' user.id %}">Habilitar</a>
+                        <button class="btn btn-warning m-1" onclick="open_modal_edition('{% url 'view_edit_user' user.id %}')">Editar</button>
                     </td>
                 </tr>
 
@@ -47,5 +57,25 @@
 <h1>No existen usuarios Suspendidos!!!</h1>
 
 {% endif %}
+
+<div class="modal face" id="new" role="dialog">
+</div>
+<div class="modal face" id="edition" role="dialog">
+</div>
+
+<script type="text/javascript">
+    var $ = jQuery.noConflic();
+    function open_modal(url) {
+        $('#new').load(url, function () {
+            $(this).modal('show')
+        })
+    }
+    function open_modal_edition(url) {
+        $('#edition').load(url, function () {
+            $(this).modal('show')
+        })
+    }
+</script>
+
 
 {% endblock body %}
