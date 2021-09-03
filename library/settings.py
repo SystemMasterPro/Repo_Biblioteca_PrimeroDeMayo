@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-+%di2di%6imonfbfmogk5qv+l%0gaw=38%o^-l06=$z(e1$(0x
 DEBUG = True
 # HOST PARA PRUEBAS
 # ALLOWED_HOSTS = ["prueba-rj.herokuapp.com", "pruebafrontistpm.netlify.app","https://pruebafrontistpm.netlify.app", "localhost", "127.0.0.1", "https://prueba-rj.herokuapp.com"]
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -71,11 +71,13 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
+    "https://pruebafrontistpm.netlify.app"
 ]
 
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:4200",
+    "https://pruebafrontistpm.netlify.app"
 ]
 
 TEMPLATES = [
