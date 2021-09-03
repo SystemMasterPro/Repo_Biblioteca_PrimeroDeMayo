@@ -50,21 +50,22 @@ class Login(ObtainAuthToken):
                         'message': 'Inicio Exitoso'
                     }, status=status.HTTP_201_CREATED)
                 else:
-                    all_sessions = Session.objects.filter(expire_date__gte = datetime.now())
-                    if all_sessions.exists():
-                        for session in all_sessions:
-                            session_data = session.get_decoded()
-                            if user.id == int(session_data.get('_auth_user_id')):
-                                session.delete()
-                    token.delete()
-                    token = Token.objects.create(user=user)
-                    return Response({
-                        'token': token.key,
-                        'user': user_serializer.data,
-                        'message': 'Inicio Exitoso'
-                    }, status=status.HTTP_201_CREATED)
+                    # Utilizar esto para manejarse con sesiones
+                    # all_sessions = Session.objects.filter(expire_date__gte = datetime.now())
+                    # if all_sessions.exists():
+                    #     for session in all_sessions:
+                    #         session_data = session.get_decoded()
+                    #         if user.id == int(session_data.get('_auth_user_id')):
+                    #             session.delete()
+                    # token.delete()
+                    # token = Token.objects.create(user=user)
+                    # return Response({
+                    #     'token': token.key,
+                    #     'user': user_serializer.data,
+                    #     'message': 'Inicio Exitoso'
+                    # }, status=status.HTTP_201_CREATED)
                     # --> Utilizar esto cuando no querramos que se manejen por sesiones, para ello borramos el codigo anterior
-                    # return Response({'error':'YA SE HA INICIADO SESION CON ESTE USUARIO'}, status=status.HTTP_409_CONFLICT) 
+                    return Response({'error':'YA SE HA INICIADO SESION CON ESTE USUARIO'}, status=status.HTTP_409_CONFLICT) 
             else:
                 return Response({'error': 'Este usuario esta suspendido'}, status=status.HTTP_401_UNAUTHORIZED)
 

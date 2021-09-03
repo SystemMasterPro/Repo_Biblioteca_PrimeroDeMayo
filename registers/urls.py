@@ -18,6 +18,7 @@ from drf_yasg import openapi
 
 # esta son de prueba
 from django.conf import settings
+
 from django.conf.urls.static import static
 
 

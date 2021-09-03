@@ -13,8 +13,9 @@ SECRET_KEY = 'django-insecure-+%di2di%6imonfbfmogk5qv+l%0gaw=38%o^-l06=$z(e1$(0x
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ["prueba-rj.herokuapp.com", "pruebafrontistpm.netlify.app","https://pruebafrontistpm.netlify.app", "localhost", "127.0.0.1", "https://prueba-rj.herokuapp.com"]
+# HOST PARA PRUEBAS
+# ALLOWED_HOSTS = ["prueba-rj.herokuapp.com", "pruebafrontistpm.netlify.app","https://pruebafrontistpm.netlify.app", "localhost", "127.0.0.1", "https://prueba-rj.herokuapp.com"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -70,13 +71,11 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
-    "https://pruebafrontistpm.netlify.app",
 ]
 
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:4200",
-    "https://pruebafrontistpm.netlify.app",
 ]
 
 TEMPLATES = [
@@ -101,25 +100,25 @@ WSGI_APPLICATION = 'library.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'bibliotecaistpm',
-#         'USER': 'postgres',
-#         'PASSWORD': 'root',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-# ESTO SOLO ES DE PRUEBA
-import dj_database_url
-from decouple import config
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default= config('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'bibliotecaistpm',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
+# ESTO SOLO ES DE PRUEBA YA QUE ESTAMOS TRABAJANDO CON HEROKU
+# import dj_database_url
+# from decouple import config
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default= config('DATABASE_URL')
+#     )
+# }
 
 
 # Password validation
