@@ -134,7 +134,7 @@ class New_User_View(SuccessMessageMixin, CreateView):
     success_message = "Usuario creado con exito!"
 
     def form_invalid(self, form):
-        messages.add_message(self.request,messages.ERROR,"Usuario o Password mal ingresados!!!")
+        messages.add_message(self.request,messages.ERROR,"Error - Datos ya existentes!!!")
         return redirect('view_list_users')
 
 # ACTUALIZAR USUARIO
@@ -146,7 +146,7 @@ class Update_User_View(SuccessMessageMixin,UpdateView):
     success_message = "Usuario actualizado"
 
     def form_invalid(self, form):
-        messages.add_message(self.request, messages.WARNING, "Usuario ya registrado!!!")
+        messages.add_message(self.request, messages.WARNING, "Error - Datos ya existentes!!!")
         return redirect('view_list_users')
 
 # DESABILITAR UN USUARIO EN EL ADMIN O DASHBOARD
@@ -292,7 +292,11 @@ class Delete_Order_View(DetailView):
     def post(self,request,pk,*args,**kwargs):
         object = Order.objects.get(id=pk)
         object.state = False
+        book = object.book.id
+        object2 = Book.objects.get(id=book)
+        object2.state = True
         object.save()
+        object2.save()
         return redirect('view_list_orders')
 
 # ************************************************************** DJANGO REST FRAMEWORK **********************************************************************************
