@@ -134,7 +134,7 @@ class New_User_View(SuccessMessageMixin, CreateView):
     success_message = "Usuario creado con exito!"
 
     def form_invalid(self, form):
-        messages.add_message(self.request,messages.ERROR,"Error - Datos ya existentes!!!")
+        messages.add_message(self.request,messages.ERROR,"Error - CEDULA O CONTRASEÑA NO VALIDAS!!!")
         return redirect('view_list_users')
 
 # ACTUALIZAR USUARIO
@@ -146,7 +146,7 @@ class Update_User_View(SuccessMessageMixin,UpdateView):
     success_message = "Usuario actualizado"
 
     def form_invalid(self, form):
-        messages.add_message(self.request, messages.WARNING, "Error - Datos ya existentes!!!")
+        messages.add_message(self.request, messages.WARNING, "Error - Datos ya existentes o no validos!!!")
         return redirect('view_list_users')
 
 # DESABILITAR UN USUARIO EN EL ADMIN O DASHBOARD
@@ -251,6 +251,8 @@ class Enable_Book_View(DetailView):
     template_name = 'Book/enable_book.html'
     def post(self, request, pk, *args, **kwargs):
         object = Book.objects.get(id=pk)
+        devuelto = object.borrowed + 1
+        object.borrowed = devuelto
         object.state = True
         object.save()
         return redirect('view_list_books')
@@ -294,6 +296,11 @@ class Delete_Order_View(DetailView):
         object.state = False
         book = object.book.id
         object2 = Book.objects.get(id=book)
+        prestados = object2.borrowed - 1
+        devueltos = object2.stock + 1
+        # if (prestados<object2.stock):
+        object2.stock = devueltos
+        object2.borrowed = prestados
         object2.state = True
         object.save()
         object2.save()

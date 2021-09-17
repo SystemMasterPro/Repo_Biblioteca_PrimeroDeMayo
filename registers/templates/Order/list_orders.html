@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 {% block body %}
 <div>
-    <button class="btn btn-success" style="margin-bottom:4px !important;"
+    <button class="btn btn-success disabled" style="margin-bottom:4px !important;"
         onclick="open_modal('{% url 'view_new_order' %}')">Agregar Pedido</button>
     <a class="btn btn-warning" style="margin-bottom:4px !important;" href="{% url 'view_list_orders_archivate' %}">Pedidos Archivados</a>
     <a class="btn btn-secondary" style="margin-bottom:4px !important;" href="{% url 'view_list_orders_search' %}">Buscar

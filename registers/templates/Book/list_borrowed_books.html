@@ -10,7 +10,7 @@
 
 <div class="card">
     <div class="card-header text-center" style="margin-top:4px !important;margin-bottom:4px !important;">
-        <strong class="card-title" style="font-size:40px;">LIBROS PRESTADOS REGISTRADOS</strong>
+        <strong class="card-title" style="font-size:40px;">LIBROS AGOTADOS</strong>
     </div>
     <div class="table order-table ov-h">
         <table class="table">
@@ -19,25 +19,27 @@
                     <th>Titulo</th>
                     <th>Autor</th>
                     <th>Portada</th>
+                    <th>Cantidad</th>
+                    <th>Prestados</th>
                     <td>Categoria</td>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for book in books %}
-
                 <tr>
                     <td>{{book.title}}</td>
                     <td>{{book.author}}</td>
                     <td>{{book.image_book}}</td>
+                    <td>{{book.stock}}</td>
+                    <td>{{book.borrowed}}</td>
                     <td>{{book.category}}</td>
                     <td class="text-center m-1">
                         <button class="btn btn-warning"
                             onclick="open_modal_edition('{% url 'view_edit_book' book.id %}')">Editar</button>
-                        <a class="btn btn-success" href="{% url 'view_enable_book' book.id %}">Marcar Como Devuelto</a>
+                        <a class="btn btn-success disabled" href="{% url 'view_enable_book' book.id %}">Marcar Como Devuelto</a>
                     </td>
                 </tr>
-
                 {% endfor %}
             </tbody>
         </table>
@@ -46,7 +48,7 @@
 
 {% else %}
 
-<h1>No existen libros registrados!!!</h1>
+<h1 class="mt-4">No existen registros de libros agotados!!!</h1>
 
 {% endif %}
 

@@ -2,9 +2,9 @@
 {% block body %}
 <form method="post">
     {% csrf_token %}
-    <p><strong style="font-size:20px;">Continuar si este libro se ha prestado</strong></p>
-    <h5>{{object.author}}</h5>
-    <h3>{{object.title}}</h3>
+    <p><strong style="font-size:20px;">Continuar si este libro por alguna razon no se encuentra disponible en la biblioteca, recuerde que no aparecera disponible para los estudiantes. RECUERDE QUE AL MARCAR COMO AGOTADO DE ESTA SECCION LA UNICA FORMA DE HABILITARLO ES DESDE EL PANEL DE ADMINISTRACION DE DJANGO MISMO QUE LO MANEJA EL ADMINISTRADOR!</strong></p>
+    <h5>Nombre del Autor: {{object.author}}</h5>
+    <h3>Nombre del Libro: {{object.title}}</h3>
     <p style="color: black;">El libro pertenece a la categoria de {{object.category}}</p>
     <button type="submit" class="btn btn-danger">Confirmar</button>
     <a class="btn btn-primary" href="{% url 'view_list_books' %}">Cancelar</a>

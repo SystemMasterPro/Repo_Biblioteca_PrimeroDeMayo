@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework import serializers
 
 from .models import *
@@ -75,6 +76,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 # *** SERIALIZADOR PARA CREAR, ACTUALIZAR Y ELIMINAR PEDIDOS ***
 class OrderSerializer(serializers.ModelSerializer):
+    book = serializers.SlugRelatedField(slug_field='title', read_only=True)
     class Meta:
         model = Order
         fields = '__all__'

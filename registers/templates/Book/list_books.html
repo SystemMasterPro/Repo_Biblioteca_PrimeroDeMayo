@@ -3,14 +3,14 @@
 <div>
     <button class="btn btn-success" style="margin-bottom:4px !important;"
         onclick="open_modal('{% url 'view_new_book' %}')">Agregar Libro</button>
-    <a class="btn btn-warning" style="margin-bottom:4px !important;" href="{% url 'view_list_books_borrowed' %}">Libros Prestados</a>
+    <a class="btn btn-warning" style="margin-bottom:4px !important;" href="{% url 'view_list_books_borrowed' %}">Libros Prestados Agotados</a>
     <a class="btn btn-secondary" style="margin-bottom:4px !important;" href="{% url 'view_list_books_search' %}">Buscar Libro</a>
 </div>
 {% if books %}
 
 <div class="card">
     <div class="card-header text-center" style="margin-top:4px !important;margin-bottom:4px !important;">
-        <strong class="card-title" style="font-size:40px;">LIBROS REGISTRADOS</strong>
+        <strong class="card-title" style="font-size:40px;">LIBROS DISPONIBLES</strong>
     </div>
     <div class="table order-table ov-h">
         <table class="table">
@@ -19,25 +19,29 @@
                     <th>Titulo</th>
                     <th>Autor</th>
                     <th>Portada</th>
+                    <th>Disponibles</th>
+                    <th>Prestados</th>
                     <td>Categoria</td>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for book in books %}
-
+                {% if book.borrowed <= book.stock %}
                 <tr>
                     <td>{{book.title}}</td>
                     <td>{{book.author}}</td>
                     <td>{{book.image_book}}</td>
+                    <td>{{book.stock}}</td>
+                    <td>{{book.borrowed}}</td>
                     <td>{{book.category}}</td>
                     <td class="text-center m-1">
                         <button class="btn btn-warning"
                             onclick="open_modal_edition('{% url 'view_edit_book' book.id %}')">Editar</button>
-                        <a class="btn btn-danger" href="{% url 'view_delete_book' book.id %}">Marcar Como Prestado</a>
+                        <a class="btn btn-danger" href="{% url 'view_delete_book' book.id %}">Marcar Como Agotado</a>
                     </td>
                 </tr>
-
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
@@ -46,7 +50,7 @@
 
 {% else %}
 
-<h1 class="pt-4">No Hay Libros Disponibles!!!</h1>
+<h1 class="mt-4">No Hay Libros Disponibles!!!</h1>
 
 {% endif %}
 
