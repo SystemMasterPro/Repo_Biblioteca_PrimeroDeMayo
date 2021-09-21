@@ -76,7 +76,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 # *** SERIALIZADOR PARA CREAR, ACTUALIZAR Y ELIMINAR PEDIDOS ***
 class OrderSerializer(serializers.ModelSerializer):
-    book = serializers.SlugRelatedField(slug_field='title', read_only=True)
+    # book = serializers.SlugRelatedField(slug_field='title', read_only=True)
     class Meta:
         model = Order
         fields = '__all__'
