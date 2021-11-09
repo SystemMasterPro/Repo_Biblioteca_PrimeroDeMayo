@@ -1,6 +1,6 @@
 # PROYECTO DE TESIS
 
-  Backend de la aplicación web para la biblioteca del Instituto Primero de Mayo
+  Backend de la aplicación web para la biblioteca del Instituto Primero de Mayo - Yantzaza
 
 ### CODIGO FUENTE DE LA APLICACION BIBLIOTECARIA WEB DEL INSTITUTO SUPERIOR TECNOLOGICO ¨PRIMERO DE MAYO¨
 
